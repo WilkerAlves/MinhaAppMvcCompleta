@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using DevIO.App.ViewsModels;
 using Microsoft.AspNetCore.Mvc;
-using DevIO.App.ViewsModels;
+using System.Diagnostics;
 
 namespace DevIO.App.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         public IActionResult Index()
         {

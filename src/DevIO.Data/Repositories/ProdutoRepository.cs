@@ -13,7 +13,7 @@ namespace DevIO.Data.Repositories
     {
         public ProdutoRepository(MeuDbContext context) : base(context) { }
 
-        public async Task<Produto> ObterProdutosFornecedor(Guid id)
+        public async Task<Produto> ObterProdutoFornecedor(Guid id)
         {
             //fazendo um inner join com fornecedores partindo o id do produto
             return await Db.Produtos.AsNoTracking()
