@@ -1,3 +1,4 @@
+using DevIO.App.Extenssions;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,7 @@ namespace DevIO.App.ViewsModels
 
         public string Imagem { get; set; }
 
+        [Moeda]
         [Required(ErrorMessage = "O campo {0} é obrigatorio")]
         public decimal Valor { get; set; }
 
