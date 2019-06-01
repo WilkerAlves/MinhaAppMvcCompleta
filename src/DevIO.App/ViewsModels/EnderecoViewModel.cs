@@ -24,7 +24,7 @@ namespace DevIO.App.ViewsModels
         public string Cep { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatorio")]
-        [StringLength(8, ErrorMessage = "O campo {0} precisa ter entre {2} e {1} caracteres", MinimumLength = 8)]
+        [StringLength(100, ErrorMessage = "O campo {0} precisa ter entre {2} e {1} caracteres", MinimumLength = 8)]
         public string Bairro { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatorio")]
