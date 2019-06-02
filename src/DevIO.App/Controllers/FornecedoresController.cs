@@ -47,6 +47,7 @@ namespace DevIO.App.Controllers
         public async Task<IActionResult> Create(FornecedorViewModel fornecedorViewModel)
         {
             if (!ModelState.IsValid) return RedirectToAction(nameof(Index));
+            if (fornecedorViewModel.Endereco.Complemento == null) fornecedorViewModel.Endereco.Complemento = string.Empty;
             var fornecedor = _mapper.Map<Fornecedor>(fornecedorViewModel);
             await _fornecedorRepository.Adicionar(fornecedor);
             return RedirectToAction("Index");
@@ -109,6 +110,7 @@ namespace DevIO.App.Controllers
             ModelState.Remove("Nome");
             ModelState.Remove("Documento");
             if (!ModelState.IsValid) return PartialView("_AtualizarEndereco", fornecedorViewModel);
+            if (fornecedorViewModel.Endereco.Complemento == null) fornecedorViewModel.Endereco.Complemento = string.Empty;
             await _enderecoRepository.Atualizar(_mapper.Map<Endereco>(fornecedorViewModel.Endereco));
             var url = Url.Action("ObterEndereco", "Fornecedores", new { id = fornecedorViewModel.Endereco.FornecedorId });
             return Json(new {success = true, url });
