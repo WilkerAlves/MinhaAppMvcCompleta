@@ -1,4 +1,4 @@
-using DevIO.App.Extenssions;
+using DevIO.App.Extensions;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using DevIO.App.Data;
-using DevIO.App.Extenssions;
+using DevIO.App.Extensions;
 using DevIO.Business.Interfaces;
 using DevIO.Data.Context;
 using DevIO.Data.Repositories;
