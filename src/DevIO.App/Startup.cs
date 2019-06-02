@@ -33,14 +33,17 @@ namespace DevIO.App
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddIdentityConfiguration(Configuration);
+
             services.AddDbContext<MeuDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddAutoMapper(typeof(Startup));
 
-            services.ResolveDependencies();
             services.AddMvcConfiguration();
-            services.AddIdentityConfiguration(Configuration);
+
+            services.ResolveDependencies();
+            
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
