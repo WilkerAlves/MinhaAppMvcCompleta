@@ -1,4 +1,5 @@
 ﻿using DevIO.App.ViewsModels;
+using DevIO.Business.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -6,6 +7,13 @@ namespace DevIO.App.Controllers
 {
     public class HomeController : BaseController
     {
+        private readonly INotificador _notificador;
+
+        public HomeController(INotificador notificador) : base (notificador)
+        {
+            _notificador = notificador;
+        }
+
         public IActionResult Index()
         {
             return View();

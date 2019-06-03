@@ -3,8 +3,6 @@ using DevIO.Business.Models;
 using DevIO.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DevIO.Data.Repositories
@@ -20,7 +18,7 @@ namespace DevIO.Data.Repositories
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
 
-        public async Task<Fornecedor> ObterFornecedorProdutoEndereco(Guid id)
+        public async Task<Fornecedor> ObterFornecedorProdutosEndereco(Guid id)
         {
             return await Db.Fornecedores.AsNoTracking()
                 .Include(c => c.Produtos)

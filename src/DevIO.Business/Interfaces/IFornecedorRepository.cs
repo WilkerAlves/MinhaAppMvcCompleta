@@ -8,6 +8,6 @@ namespace DevIO.Business.Interfaces
     {
         Task<Fornecedor> ObterFornecedorEndereco(Guid id);
 
-        Task<Fornecedor> ObterFornecedorProdutoEndereco(Guid id);
+        Task<Fornecedor> ObterFornecedorProdutosEndereco(Guid id);
     }
 }

@@ -13,16 +13,20 @@ namespace DevIO.App.Controllers
     public class FornecedoresController : BaseController
     {
         private readonly IFornecedorRepository _fornecedorRepository;
+        private readonly IFornecedorService _fornecedorService;
         private readonly IEnderecoRepository _enderecoRepository;
         private readonly IMapper _mapper;
 
-        public FornecedoresController(IFornecedorRepository fornecedorRepository, 
-                                      IEnderecoRepository enderecoRepository, 
-                                      IMapper mapper)
+        public FornecedoresController(IFornecedorRepository fornecedorRepository,
+                                      IEnderecoRepository enderecoRepository,
+                                      IMapper mapper,
+                                      IFornecedorService fornecedorService,
+                                      INotificador notificador) : base(notificador)
         {
             _fornecedorRepository = fornecedorRepository;
             _enderecoRepository = enderecoRepository;
             _mapper = mapper;
+            _fornecedorService = fornecedorService;
         }
 
         [Route("lista-de-fornecedores")]
@@ -51,9 +55,14 @@ namespace DevIO.App.Controllers
         public async Task<IActionResult> Create(FornecedorViewModel fornecedorViewModel)
         {
             if (!ModelState.IsValid) return RedirectToAction(nameof(Index));
+
             if (fornecedorViewModel.Endereco.Complemento == null) fornecedorViewModel.Endereco.Complemento = string.Empty;
             var fornecedor = _mapper.Map<Fornecedor>(fornecedorViewModel);
-            await _fornecedorRepository.Adicionar(fornecedor);
+
+            await _fornecedorService.Adicionar(fornecedor);
+
+            if (!OperacaoValida()) return View(fornecedorViewModel);
+
             return RedirectToAction("Index");
         }
 
@@ -73,7 +82,8 @@ namespace DevIO.App.Controllers
             if (id != fornecedorViewModel.Id) return NotFound();
             if (!ModelState.IsValid) return View(fornecedorViewModel);
             var fornecedor = _mapper.Map<Fornecedor>(fornecedorViewModel);
-            await _fornecedorRepository.Atualizar(fornecedor);
+            await _fornecedorService.Atualizar(fornecedor);
+            if (!OperacaoValida()) return View(fornecedorViewModel);
             return RedirectToAction("Index");
             
         }
@@ -93,7 +103,9 @@ namespace DevIO.App.Controllers
         {
             var fornecedorViewModel = await ObterFornecedorEndereco(id);
             if (fornecedorViewModel == null) return NotFound();
-            await _fornecedorRepository.Remover(id);
+            await _fornecedorService.Remover(id);
+            if (!OperacaoValida()) return View(fornecedorViewModel);
+            TempData["Sucesso"] = "Fornecedor excluido com sucesso";
             return RedirectToAction("Index");
         }
 
@@ -122,7 +134,8 @@ namespace DevIO.App.Controllers
             ModelState.Remove("Documento");
             if (!ModelState.IsValid) return PartialView("_AtualizarEndereco", fornecedorViewModel);
             if (fornecedorViewModel.Endereco.Complemento == null) fornecedorViewModel.Endereco.Complemento = string.Empty;
-            await _enderecoRepository.Atualizar(_mapper.Map<Endereco>(fornecedorViewModel.Endereco));
+            await _fornecedorService.AtualizarEndereco(_mapper.Map<Endereco>(fornecedorViewModel.Endereco));
+            if (!OperacaoValida()) return View(fornecedorViewModel);
             var url = Url.Action("ObterEndereco", "Fornecedores", new { id = fornecedorViewModel.Endereco.FornecedorId });
             return Json(new {success = true, url });
         }
@@ -134,7 +147,7 @@ namespace DevIO.App.Controllers
 
         private async Task<FornecedorViewModel> ObterFornecedorProdutosEndereco(Guid id)
         {
-            return _mapper.Map<FornecedorViewModel>(await _fornecedorRepository.ObterFornecedorProdutoEndereco(id));
+            return _mapper.Map<FornecedorViewModel>(await _fornecedorRepository.ObterFornecedorProdutosEndereco(id));
         }
     }
 }
