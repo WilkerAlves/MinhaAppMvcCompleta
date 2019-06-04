@@ -21,11 +21,6 @@ namespace DevIO.App
                 .AddJsonFile($"appsettings.{hostEnvironment.EnvironmentName}.json", true, true)
                 .AddEnvironmentVariables();
 
-            if (hostEnvironment.IsDevelopment())
-            {
-                builder.AddUserSecrets<Startup>();
-            }
-
             Configuration = builder.Build();
         }
 
